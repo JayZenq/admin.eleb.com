@@ -10,3 +10,6 @@ class Shop_categories extends Model
     protected $fillable=['name','img','status'];
 
 }
+
+
+

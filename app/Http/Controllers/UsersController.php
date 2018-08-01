@@ -216,6 +216,26 @@ class UsersController extends Controller
     {
         return view('users/show',compact('user'));
     }
-    
-    
+
+    public function change(Users $user)
+    {
+        return view('users/change',compact('user'));
+    }
+
+    public function updates(Request $request,Users $user)
+    {
+        $this->validate($request,[
+            'password'=>'required|confirmed'
+        ],[
+            'passwor.required'=>'请输入新密码',
+            'passwor.confirmed'=>'两次输入的密码不一致',
+        ]);
+
+        $user->update([
+            'password'=>$request->password
+        ]);
+
+        session()->flash('success','密码重置成功');
+        return redirect('users');
+    }
 }

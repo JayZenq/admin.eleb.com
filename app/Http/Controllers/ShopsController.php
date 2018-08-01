@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Shop;
 use App\Models\Shop_categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ShopsController extends Controller
 {
@@ -17,6 +18,7 @@ class ShopsController extends Controller
 
     public function create()
     {
+
         $categories = Shop_categories::all();
         return view('shop/create',compact('categories'));
     }
@@ -58,12 +60,12 @@ class ShopsController extends Controller
             'piao.required'=>'请选择是否有票标记',
             'zhun.required'=>'请选择是否有准标记',
         ]);
-        $file = $request->shop_img;
-        $fileName = $file->store('public/logo');
+//        $file = $request->shop_img;
+//        $fileName = $file->store('public/logo');
        $shop= Shop::create([
             'shop_category_id'=>$request->shop_category_id,
             'shop_name'=>$request->shop_name,
-            'shop_img'=>$fileName,
+            'shop_img'=>$request->logo,
             'shop_rating'=>4,
             'brand'=>$request->brand,
             'on_time'=>$request->on_time,
@@ -98,7 +100,7 @@ class ShopsController extends Controller
         $this->validate($request,[
             'shop_category_id'=>'required',
             'shop_name'=>'required',
-            'shop_img'=>'required|image',
+            'logo'=>'required',
             'start_send'=>'required|numeric',
             'send_cost'=>'required|numeric',
             'discount'=>'required|max:100',
@@ -130,9 +132,8 @@ class ShopsController extends Controller
             'zhun.required'=>'请选择是否有准标记',
         ]);
         //判断是否上传新图片
-        if ($request->shop_img){
-            $file = $request->shop_img;
-            $fileName=$file->store('public/logo');
+        if ($request->logo){
+            $fileName = $request->logo;
         }else{
             $fileName=$shop->shop_img;
         }
@@ -172,16 +173,10 @@ class ShopsController extends Controller
 
     public function status(Shop $shop,Request $request)
     {
-//        var_dump($request);
-        if ($shop->status){
             $shop->update([
-                'status'=>-1
+                'status'=>$request->input('status')
             ]);
-        }else{
-            $shop->update([
-                'status'=>1
-            ]);
-        }
+
 
         return redirect('shops');
     }

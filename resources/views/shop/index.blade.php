@@ -21,7 +21,7 @@
             <td>{{$shop->shop_categories->name}}</td>
             <td>{{$shop->shop_name}}</td>
             <td>
-                <img src="{{\Illuminate\Support\Facades\Storage::url($shop->shop_img)}}" alt="" width="50px">
+                <img src="{{$shop->shop_img}}" alt="" width="50px">
             </td>
             <td>{{$shop->start_send}}</td>
             <td>{{$shop->send_cost}}</td>

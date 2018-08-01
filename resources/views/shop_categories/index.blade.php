@@ -14,7 +14,7 @@
             <td>{{$shop_category->id}}</td>
             <td>{{$shop_category->name}}</td>
             <td>@if($shop_category->status)显示@else隐藏@endif</td>
-            <td><img src="{{\Illuminate\Support\Facades\Storage::url($shop_category->img)}}" alt="" width="50px"></td>
+            <td><img src="{{$shop_category->img}}" alt="" width="50px"></td>
             <td>
                 <form action="{{route('shop_categories.destroy',[$shop_category])}}" method="post">
                     <a href="{{route('shop_categories.edit',[$shop_category])}}" class="btn btn-primary">编辑</a>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop_categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class Shop_categoriesController extends Controller
 {
@@ -23,24 +25,27 @@ class Shop_categoriesController extends Controller
     //保存分类
     public function store(Request $request)
     {
-
+        $num = 1;
         $this->validate($request,[
-            'name'=>'required|max:30',
+            'name'=>"required|max:30|unique:shop_categories|same:$num",
             'logo'=>'required',
-            'status'=>'required'
+            'status'=>"required"
         ],[
             'name.required'=>'分类名不能为空',
             'name.max'=>'分类名不能超过30个字',
+            'name.unique'=>'该分类已存在',
             'logo.required'=>'分类图片不能为空',
             'status.required'=>'请选择是否显示',
+            'name.same'=>'请输入正确的',
         ]);
-
-        $file = $request->logo;
-        $fileName=$file->store('public/logo');
+//        $storage= Storage::disk('oss');
+//        $fileName= $storage->putFile('shop_categories',$request->logo);
+//        $file = $request->logo;
+//        $fileName=$file->store('public/logo');
 
         Shop_categories::create([
             'name'=>$request->name,
-            'img'=>$fileName,
+            'img'=>$request->logo,
             'status'=>$request->status,
         ]);
 
@@ -60,22 +65,26 @@ class Shop_categoriesController extends Controller
 //        var_dump($request->status);
 //        die();
         $this->validate($request,[
-            'name'=>'required|max:30',
+            'name'=>[
+                'required','max:30',
+                Rule::unique('shop_categories')->ignore($shop_category->id),
+            ],
 //            'logo'=>'required',
             'status'=>'required'
         ],[
             'name.required'=>'分类名不能为空',
             'name.max'=>'分类名不能超过30个字',
+            'name.unique'=>'该分类已存在',
             'status.required'=>'请选择是否显示',
         ]);
 
         //判断是否修改了分类图片
         if ($request->logo){//上传图片,
-            $file=$request->logo;
-            $fileName = $file->store('public/logo');
+            $fileName = $request->logo;
         }else{//没上传将原地址再保存一次
            $fileName=$shop_category->img;
         }
+
         //修改数据库的数据
         $shop_category->update([
             'name'=>$request->name,

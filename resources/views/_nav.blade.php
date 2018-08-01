@@ -14,22 +14,32 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{route('shop_categories.index')}}">商家分类管理 <span class="sr-only">(current)</span></a></li>
-                <li><a href="{{route('shops.index')}}">商家信息</a></li>
-                <li><a href="{{route('users.index')}}">商家账号</a></li>
-                <li><a href="">商品列表</a></li>
-                {{--<li class="dropdown">--}}
-                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>--}}
-                    {{--<ul class="dropdown-menu">--}}
-                        {{--<li><a href="#">Action</a></li>--}}
-                        {{--<li><a href="#">Another action</a></li>--}}
-                        {{--<li><a href="#">Something else here</a></li>--}}
-                        {{--<li role="separator" class="divider"></li>--}}
-                        {{--<li><a href="#">Separated link</a></li>--}}
-                        {{--<li role="separator" class="divider"></li>--}}
-                        {{--<li><a href="#">One more separated link</a></li>--}}
-                    {{--</ul>--}}
-                {{--</li>--}}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商家管理 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="active"><a href="{{route('shop_categories.index')}}">商家分类管理 <span class="sr-only">(current)</span></a></li>
+                        <li><a href="{{route('shops.index')}}">商家信息</a></li>
+                        <li><a href="{{route('users.index')}}">商家账号</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{route('member.index')}}">用户信息</a></li>
+                <li><a href="{{route('admins.index')}}">管理员信息</a></li>
+                <li><a href="{{route('activities.index')}}">活动管理</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商家统计 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('order.count')}}">商家订单量统计</a></li>
+                        <li><a href="{{route('order.menu')}}">菜品销量统计</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">权限管理 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('role.index')}}">角色列表</a></li>
+                        <li><a href="{{route('permission.index')}}">权限列表</a></li>
+                    </ul>
+                </li>
             </ul>
             <form class="navbar-form navbar-left">
                 <div class="form-group">
@@ -39,18 +49,18 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 @guest
-                <li><a href="">登录</a></li>
+                <li><a href="{{route('login')}}">登录</a></li>
                 @endguest
                 @auth
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户:  <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户:  {{\Illuminate\Support\Facades\Auth::user()->name}}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
+                        <li><a href="{{route('admins.edit',[\Illuminate\Support\Facades\Auth::user()])}}">编辑个人信息</a></li>
+                        <li><a href="{{route('change',[\Illuminate\Support\Facades\Auth::user()])}}">修改密码</a></li>
                         <li><a href="#">Something else here</a></li>
                         <li role="separator" class="divider"></li>
                         <li>
-                            <form method="post" action="">
+                            <form method="post" action="{{route('logout',[\Illuminate\Support\Facades\Auth::user()])}}">
                                 {{ csrf_field() }}{{ method_field('DELETE') }}
                                 <button class="btn btn-link">注销</button>
                             </form>

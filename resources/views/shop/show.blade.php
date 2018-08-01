@@ -6,7 +6,7 @@
             <li class="list-group-item">ID: {{$shop->id}}</li>
             <li class="list-group-item">店铺分类: {{$shop->shop_categories->name}}</li>
             <li class="list-group-item">名称: {{$shop->shop_name}}</li>
-            <li class="list-group-item">店铺图片: <img src="{{\Illuminate\Support\Facades\Storage::url($shop->shop_img)}}" alt="" width="55px"></li>
+            <li class="list-group-item">店铺图片: <img src="{{$shop->shop_img}}" alt="" width="55px"></li>
             <li class="list-group-item">评分: {{$shop->shop_rating}}</li>
             <li class="list-group-item">是否是品牌: @if($shop->brand)是@else 不是@endif</li>
             <li class="list-group-item">是否准时送达: @if($shop->on_time)是@else 不是@endif</li>
@@ -21,9 +21,12 @@
             <li class="list-group-item">状态: @if($shop->status==1)正常@elseif(!$shop->status)待审核@else禁用@endif</li>
             <li class="list-group-item">
                 @if($shop->status==0)
-                    <a href="{{route('shops.status',[$shop])}}" class="btn btn-success">启用</a>
+                    <a href="{{route('shops.status',[$shop,'status'=>1])}}" class="btn btn-success">启用</a>
+                    <a href="{{route('shops.status',[$shop,'status'=>-1])}}" class="btn btn-danger">禁用</a>
+                @elseif($shop->status==1)
+                    <a href="{{route('shops.status',[$shop,'status'=>-1])}}" class="btn btn-danger">禁用</a>
                 @else
-                    <a href="{{route('shops.status',[$shop])}}" class="btn btn-danger">禁用</a>
+                    <a href="{{route('shops.status',[$shop,'status'=>1])}}" class="btn btn-success">启用</a>
                 @endif
             </li>
         </ul>

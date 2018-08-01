@@ -28,7 +28,9 @@
                         {{--@endif--}}
                         <a href="{{route('users.show',[$user])}}" class="btn btn-primary">查看</a>
                         <a href="{{route('users.edit',[$user])}}" class="btn btn-primary">编辑</a>
-
+                        @if(\Illuminate\Support\Facades\Auth::user())
+                        <a href="{{route('users.change',[$user])}}" class="btn btn-success">重置密码</a>
+                        @endif
                         {{method_field('DELETE')}}
                         {{csrf_field()}}
                         <button class="btn btn-danger">删除</button>

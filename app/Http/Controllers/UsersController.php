@@ -112,7 +112,7 @@ class UsersController extends Controller
         return redirect('users');
     }
 
-    public function status(Users $user,Request $request)
+    public function status(Users $user)
     {
 //        var_dump($request);
         if ($user->status){
@@ -123,6 +123,12 @@ class UsersController extends Controller
             $user->update([
                'status'=>1
             ]);
+            $_SERVER['email']=$user->email;
+            \Illuminate\Support\Facades\Mail::raw('您的店铺审核已通过~',function ($message){
+                $message->subject('审核通知');
+                $message->to($_SERVER['email']);
+                $message->from('a578393196@163.com','jay');
+            });
         }
 
         return redirect('users');

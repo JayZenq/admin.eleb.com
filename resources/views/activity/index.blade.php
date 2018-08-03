@@ -23,17 +23,24 @@
             <td>{{$activity->end_time}}</td>
             <td>
                 <form action="{{route('activities.destroy',[$activity])}}" method="post">
+                    @can('activities_edit')
                     <a href="{{route('activities.edit',[$activity])}}" class="btn btn-primary">编辑</a>
+                    @endcan
                     {{method_field('DELETE')}}
                     {{csrf_field()}}
+                        @can('activities_del')
                     <button class="btn btn-danger">删除</button>
+                        @endcan
                 </form>
             </td>
         </tr>
         @endforeach
         <tr>
             <td colspan="5">
-                <a href="{{route('activities.create')}}" class="btn btn-block btn-success">添加分类</a>
+                @can('activities_add')
+                    <a href="{{route('activities.create')}}" class="btn btn-block btn-success">添加活动</a>
+                    @endcan
+
             </td>
 
         </tr>

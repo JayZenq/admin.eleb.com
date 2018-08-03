@@ -39,7 +39,9 @@
             <td>
 
                 <form action="{{route('shops.destroy',[$shop])}}" method="post">
+                    @can('shop_edit')
                     <a href="{{route('shops.edit',[$shop])}}" class="btn btn-primary">编辑</a>
+                    @endcan
                     <a href="{{route('shops.show',[$shop])}}" class="btn btn-primary">查看</a>
                     {{method_field('DELETE')}}
                     {{csrf_field()}}
@@ -50,7 +52,9 @@
         @endforeach
         <tr>
             <td colspan="10">
+                @can('shop_create')
                 <a href="{{route('users.create')}}" class="btn btn-block btn-success">商家注册</a>
+                @endcan
             </td>
 
         </tr>

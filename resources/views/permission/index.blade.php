@@ -13,7 +13,7 @@
                 <td>{{$permission->id}}</td>
                 <td>{{$permission->name}}</td>
                 <td>
-                    <form action="" method="post">
+                    <form action="{{route('permission.destroy',[$permission])}}" method="post">
                         <a href="{{route('permission.edit',[$permission])}}" class="btn btn-primary">编辑</a>
                         {{method_field('DELETE')}}
                         {{csrf_field()}}
@@ -29,5 +29,5 @@
 
         </tr>
     </table>
-
+    {{$permissions->links()}}
 @endsection

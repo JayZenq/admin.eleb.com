@@ -14,39 +14,45 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+                {{--<li class="dropdown">--}}
+                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商家管理 <span class="caret"></span></a>--}}
+                    {{--<ul class="dropdown-menu">--}}
+                        {{--<li class="active"><a href="{{route('shop_categories.index')}}">商家分类管理 <span class="sr-only">(current)</span></a></li>--}}
+                        {{--<li><a href="{{route('shops.index')}}">商家信息</a></li>--}}
+                        {{--<li><a href="{{route('users.index')}}">商家账号</a></li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
+                {{--<li><a href="{{route('member.index')}}">用户信息</a></li>--}}
+                {{--<li><a href="{{route('admins.index')}}">管理员信息</a></li>--}}
+                {{--<li><a href="{{route('activities.index')}}">活动管理</a></li>--}}
+                {{--<li class="dropdown">--}}
+                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商家统计 <span class="caret"></span></a>--}}
+                    {{--<ul class="dropdown-menu">--}}
+                        {{--<li><a href="{{route('order.count')}}">商家订单量统计</a></li>--}}
+                        {{--<li><a href="{{route('order.menu')}}">菜品销量统计</a></li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
+                @foreach(\App\Models\Nav::where('pid',0)->get() as $nav)
+                    @can($nav->permission->name)
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商家管理 <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$nav->name}} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li class="active"><a href="{{route('shop_categories.index')}}">商家分类管理 <span class="sr-only">(current)</span></a></li>
-                        <li><a href="{{route('shops.index')}}">商家信息</a></li>
-                        <li><a href="{{route('users.index')}}">商家账号</a></li>
+                        @foreach(\App\Models\Nav::where('pid',$nav->id)->get() as $v)
+                            @can($v->permission->name)
+                        <li><a href="{{route($v->url)}}">{{$v->name}}</a></li>
+                            @endcan
+                        @endforeach
                     </ul>
                 </li>
-                <li><a href="{{route('member.index')}}">用户信息</a></li>
-                <li><a href="{{route('admins.index')}}">管理员信息</a></li>
-                <li><a href="{{route('activities.index')}}">活动管理</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商家统计 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{route('order.count')}}">商家订单量统计</a></li>
-                        <li><a href="{{route('order.menu')}}">菜品销量统计</a></li>
-                    </ul>
-                </li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">权限管理 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{route('role.index')}}">角色列表</a></li>
-                        <li><a href="{{route('permission.index')}}">权限列表</a></li>
-                    </ul>
-                </li>
+                    @endcan
+                @endforeach
             </ul>
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" name="key">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+            {{--<form class="navbar-form navbar-left">--}}
+                {{--<div class="form-group">--}}
+                    {{--<input type="text" class="form-control" placeholder="Search" name="key">--}}
+                {{--</div>--}}
+                {{--<button type="submit" class="btn btn-default">Submit</button>--}}
+            {{--</form>--}}
             <ul class="nav navbar-nav navbar-right">
                 @guest
                 <li><a href="{{route('login')}}">登录</a></li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Permission;
 
 class PermissionsController extends Controller
@@ -44,7 +45,7 @@ class PermissionsController extends Controller
     public function update(Request $request,Permission $permission)
     {
         $this->validate($request,[
-            'name'=>'required|unique:permissions'
+            'name'=>['required',Rule::unique('permissions')->ignore($permission->id)]
         ],[
             'name.required'=>'权限名不能为空',
             'name.unique'=>'权限名已存在',
@@ -59,6 +60,8 @@ class PermissionsController extends Controller
 
     public function destroy(Permission $permission)
     {
+//        var_dump($permission);
+//        die();
         $permission->delete();
         session()->flash('success','删除成功');
         return redirect('permission');

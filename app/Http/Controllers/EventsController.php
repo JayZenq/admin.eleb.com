@@ -12,7 +12,8 @@ class EventsController extends Controller
     //抽奖活动表
     public function index()
     {
-        $events =  Event::paginate();
+        //查询活动列表
+        $events =  Event::paginate(10);
         return view('event/index',compact('events'));
     }
 

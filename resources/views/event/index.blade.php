@@ -23,9 +23,13 @@
                 <td>
                     <form action="{{route('event.destroy',[$event])}}" method="post">
                         <a href="{{route('event.show',[$event])}}" class="btn btn-primary">详情</a>
+                        @if(!$event->is_prize)
                         <a href="{{route('event.edit',[$event])}}" class="btn btn-primary">编辑</a>
-                        <a href="{{route('event.lottery',[$event])}}" class="btn btn-primary">开奖</a>
-                        {{method_field('DELETE')}}
+                        @endif
+                        @if(!$event->is_prize)
+                            <a href="{{route('event.lottery',[$event])}}" class="btn btn-primary">开奖</a>
+                        @endif
+                            {{method_field('DELETE')}}
                         {{csrf_field()}}
                         <button class="btn btn-danger">删除</button>
                     </form>

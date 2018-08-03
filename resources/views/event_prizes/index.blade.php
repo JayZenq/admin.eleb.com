@@ -17,7 +17,7 @@
                 <td>{{$event_prize->event->title}}</td>
                 <td>{{$event_prize->name}}</td>
                 <td>{{$event_prize->description}}</td>
-                <td>{{$event_prize->member_id}}</td>
+                <td>{{$event_prize->user->name}}</td>
                 <td>
                     <form action="{{route('event_prize.destroy',[$event_prize])}}" method="post">
                         <a href="{{route('event_prize.edit',[$event_prize])}}" class="btn btn-primary">编辑</a>

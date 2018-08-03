@@ -17,7 +17,6 @@ class Event_prizesController extends Controller
         if ($event_id){
             $where= $where->where('events_id',$event_id);
         }
-
        $event_prizes = $where->paginate(10);
         return view('event_prizes/index',compact('event_prizes'));
     }
@@ -43,6 +42,7 @@ class Event_prizesController extends Controller
             'events_id'=>$request->events_id,
             'name'=>$request->name,
             'description'=>$request->description,
+            'member_id'=>'',
         ]);
         session()->flash('success','添加成功');
         return redirect('event_prize');

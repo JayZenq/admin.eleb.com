@@ -14,4 +14,10 @@ class Event_prize extends Model
         return $this->belongsTo(Event::class,'events_id');
         //Student::class ==== 'App\Models\Student'
     }
+    public function user()
+    {
+        return $this->belongsTo(Users::class,'member_id');
+        //Student::class ==== 'App\Models\Student'
+    }
+
 }

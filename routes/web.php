@@ -57,9 +57,9 @@ Route::get('/order_menu', 'OrdersController@menu')->name('order.menu')->middlewa
 Route::get('/order_menum', 'OrdersController@menu_month')->name('order.menu_month')->middleware(['permission:orders']);
 Route::get('/order_mday', 'OrdersController@mday')->name('order.mday')->middleware(['permission:orders']);
 //权限的资源路由
-Route::resource('/permission','PermissionsController');//->middleware(['role:RBAC|大老板(为所欲为)']);
+Route::resource('/permission','PermissionsController')->middleware(['role:RBAC|大老板(为所欲为)']);
 //角色的资源路由
-Route::resource('/role','RoleController');//->middleware(['role:RBAC|大老板(为所欲为)']);
+Route::resource('/role','RoleController')->middleware(['role:RBAC|大老板(为所欲为)']);
 //导航菜单的资源路由
 Route::resource('/nav','NavsController');
 //抽奖活动的资源路由
